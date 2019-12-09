@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #1 in closure #1 in CellAppointment.body.getter:CellAppointment.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "CDate.showDate(datetime: appointment.datetime)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in CellAppointment.body.getter:CellAppointment.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "CDate.getDays(datetime: appointment.datetime)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in CellPatient.__preview__body.getter:CellPatient.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Patient()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #2 in closure #1 in closure #1 in AppointmentsView.body.getter:AppointmentsView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "CDate.getDay(datetime: self.startDate)">
+            </PersistentString>
+            <PersistentString
+               value = "self.startDate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
