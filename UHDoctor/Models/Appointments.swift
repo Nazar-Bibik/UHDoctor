@@ -15,6 +15,7 @@ class Appointments: ObservableObject{
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     @Published var appointments: [Appointment] = []
+    @Published var grouped: [[Appointment]] = []
     
     init() {
         getall()
@@ -25,6 +26,20 @@ class Appointments: ObservableObject{
             appointments = try context.fetch(Appointment.getAll())
         } catch {
             print("Error while fetching all appointments, \(error)")
+        }
+        
+        if appointments.count != 0 {
+            var day = CDate.getDay(datetime: appointments.first!.datetime)
+            var group: [Appointment] = []
+            for single in appointments {
+                if day != CDate.getDay(datetime: single.datetime){
+                    grouped.append(group)
+                    group = []
+                    day = CDate.getDay(datetime: single.datetime)
+                }
+                group.append(single)
+            }
+            grouped.append(group)
         }
     }
     
@@ -55,37 +70,42 @@ class Appointments: ObservableObject{
         return false
     }
     
-    func delete(index: Int) {
-        context.delete(self.appointments[index])
+    func delete(item: Appointment) {
+        context.delete(item)
         saveContext()
     }
     
     func getList(firstDay: Date, range: Int) -> [[Appointment]] {
-        var ordered: [[Appointment]] = []
-        var fetched: [Appointment] = []
-        
-        do {
-            fetched = try context.fetch(Appointment.getRange(startdate: firstDay, range: range))
-        } catch {
-            print("Error while fetching nearest appointments, \(error)")
-        }
-        if fetched.count == 0{
-            return []
-        }
-        
-        var day = CDate.getDay(datetime: fetched.first!.datetime)
-        var group: [Appointment] = []
-        for single in fetched {
-            if day != CDate.getDay(datetime: single.datetime){
-                ordered.append(group)
-                group = []
-                day = CDate.getDay(datetime: single.datetime)
-            }
-            group.append(single)
-        }
-        ordered.append(group)
-        
-        return ordered
+        let lastDay = CDate.shiftDays(datetime: firstDay, days: 30)
+        return grouped.filter { $0.first!.datetime > firstDay && $0.first!.datetime < lastDay }
     }
+    
+//    func getList(firstDay: Date, range: Int) -> [[Appointment]] {
+//        var ordered: [[Appointment]] = []
+//        var fetched: [Appointment] = []
+//
+//        do {
+//            fetched = try context.fetch(Appointment.getRange(startdate: firstDay, range: range))
+//        } catch {
+//            print("Error while fetching nearest appointments, \(error)")
+//        }
+//        if fetched.count == 0{
+//            return []
+//        }
+//
+//        var day = CDate.getDay(datetime: fetched.first!.datetime)
+//        var group: [Appointment] = []
+//        for single in fetched {
+//            if day != CDate.getDay(datetime: single.datetime){
+//                ordered.append(group)
+//                group = []
+//                day = CDate.getDay(datetime: single.datetime)
+//            }
+//            group.append(single)
+//        }
+//        ordered.append(group)
+//
+//        return ordered
+//    }
     
 }

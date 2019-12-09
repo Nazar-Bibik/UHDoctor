@@ -37,7 +37,7 @@ struct AppointmentsView: View {
 //                    }
                     //
                     ForEach (appointments.getList(firstDay: self.startDate, range: daysRange), id: \.self) { group in
-                        Section(header: Text(CDate.showDate(datetime: group.first!.datetime, format: .shortdate)), footer: EmptyView()){
+                        Section(header: Text(CDate.showDate(datetime: group.first!.datetime, format: .longdate)), footer: EmptyView()){
                             ForEach(group, id: \.self) {appointment in
                                 ZStack{
                                     CellAppointment(appointment: appointment)
@@ -45,6 +45,9 @@ struct AppointmentsView: View {
                                         NavigationLinkHelperView(mimic: .constant(true))
                                     }.hidden()
                                 }
+                            }
+                            .onDelete { indexSet in
+                                self.appointments.delete(item: group[indexSet.first!])
                             }
                         }
                     }
