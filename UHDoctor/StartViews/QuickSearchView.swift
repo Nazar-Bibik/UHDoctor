@@ -11,9 +11,10 @@ import SwiftUI
 
 struct QuickSearchView: View {
     var body: some View {
-        ZStack{
-            Text("QS").background(Color.clear)
+        List{
+            SearchBar(text: .constant(""))
         }
+    .navigationBarTitle("Quick Search")
     }
 }
 

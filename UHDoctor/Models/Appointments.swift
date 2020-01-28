@@ -29,6 +29,7 @@ class Appointments: ObservableObject{
         }
         
         if appointments.count != 0 {
+            grouped = []
             var day = CDate.getDay(datetime: appointments.first!.datetime)
             var group: [Appointment] = []
             for single in appointments {
@@ -78,6 +79,15 @@ class Appointments: ObservableObject{
     func getList(firstDay: Date, range: Int) -> [[Appointment]] {
         let lastDay = CDate.shiftDays(datetime: firstDay, days: 30)
         return grouped.filter { $0.first!.datetime > firstDay && $0.first!.datetime < lastDay }
+    }
+    
+    func graphActivity(range: Int) -> [Int]{
+        let group = getList(firstDay: Date(), range: range).flatMap { $0.map {$0.datetime} }
+        var days:[Int] = []
+        for i in 0 ..< 30{
+            days.append(group.filter { Calendar.current.compare(CDate.shiftDays(datetime: Date(), days: i), to: $0, toGranularity: .day) == .orderedSame }.count)
+        }
+        return days
     }
     
 //    func getList(firstDay: Date, range: Int) -> [[Appointment]] {

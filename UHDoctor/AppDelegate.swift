@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UITabBar.appearance().shadowImage = UIImage()
             UITabBar.appearance().clipsToBounds = true
         
+        AutoCalculation.CalculateGraphs(patients: Patients(), appointments: Appointments())
+        
 //        Populate(context: persistentContainer.viewContext)
         
         // Override point for customization after application launch.

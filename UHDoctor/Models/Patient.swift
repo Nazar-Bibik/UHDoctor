@@ -23,6 +23,7 @@ public class Patient: NSManagedObject, Identifiable {
     @NSManaged var identification: String
 
     @NSManaged var appointments: NSSet
+    @NSManaged var notes: NSSet
 }
 
 extension Patient {
@@ -31,6 +32,16 @@ extension Patient {
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
 
         return request
+    }
+}
+
+extension Patient{
+    func latestAppointment() -> Appointment?{
+        return appointments.allObjects.filter{ ($0 as! Appointment).datetime > Date() }.first as? Appointment
+    }
+    
+    func appointmentsCount() -> Int{
+        return appointments.allObjects.filter{ ($0 as! Appointment).datetime > Date() }.count
     }
 }
 

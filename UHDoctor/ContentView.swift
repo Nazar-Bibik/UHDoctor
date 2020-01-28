@@ -23,11 +23,15 @@ struct ContentView: View {
     
     @State var tabSelected: Int = 1
     
+    @EnvironmentObject var appointments: Appointments
+    @EnvironmentObject var patients: Patients
+    @EnvironmentObject var notes: Notes
+    
     var body: some View {
         ZStack{
             // --
-//            Color("cGT").edgesIgnoringSafeArea([.top, .leading, .trailing])
-            LinearGradient(gradient: Gradient(colors: [Color("cGT"), Color("cGB")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea([.top, .leading, .trailing])
+            Color("cGB").edgesIgnoringSafeArea([.top, .leading, .trailing])
+//            LinearGradient(gradient: Gradient(colors: [Color("cGT"), Color("cGB")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea([.top, .leading, .trailing])
             // --
             TabView(selection: $tabSelected) {
                 PatientsListView()

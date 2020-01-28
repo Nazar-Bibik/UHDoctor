@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct AppointmentsView: View {
-    @State var appointments = Appointments()
+    @EnvironmentObject var appointments: Appointments
     @State var daysRange: Int = 30
     @State var startDate = Date()
     
@@ -19,7 +19,8 @@ struct AppointmentsView: View {
         NavigationView{
             ZStack{
                 // --
-                LinearGradient(gradient: Gradient(colors: [Color("cGT"), Color("cGB")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea([.top, .leading, .trailing])
+//                LinearGradient(gradient: Gradient(colors: [Color("cGT"), Color("cGB")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea([.top, .leading, .trailing])
+                Color("cGB").edgesIgnoringSafeArea([.leading, .trailing])
                 // --
                 List {
                     //
@@ -37,6 +38,7 @@ struct AppointmentsView: View {
 //                    }
                     //
                     ForEach (appointments.getList(firstDay: self.startDate, range: daysRange), id: \.self) { group in
+//                    ForEach (appointments.grouped.filter { $0.first!.datetime > startDate && $0.first!.datetime < CDate.shiftDays(datetime: self.startDate, days: 30) }, id: \.self) { group in
                         Section(header: Text(CDate.showDate(datetime: group.first!.datetime, format: .longdate)), footer: EmptyView()){
                             ForEach(group, id: \.self) {appointment in
                                 ZStack{
@@ -54,6 +56,7 @@ struct AppointmentsView: View {
                     //
                 }
                 .listStyle(GroupedListStyle())
+                .animation(.linear).transition(.slide)
                 .background(Color.clear)
                 .navigationBarHidden(false)
                 .navigationBarTitle("Appointments", displayMode: .inline)
@@ -100,7 +103,6 @@ struct AppointmentsView: View {
             }
             
         }
-        .animation(.linear)
         .onAppear(){
             UITableView.appearance().separatorStyle = .none
         }

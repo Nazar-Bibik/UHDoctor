@@ -12,19 +12,19 @@ import UIKit
 
 
  func Populate(context: NSManagedObjectContext) {
-    let data = datapop()
-    for i in 0..<13{
+    for _ in 0..<100{
+        let data = datapop()
         let new = Patient(context: context)
-        new.address = data.address[i]
-        new.birthdate = data.birthdate[i]
-        new.blood = data.blood[i]
-        new.createdAt = data.createdAt[i]
-        new.gender = data.gender[i]
-        new.name = data.name[i]
-        new.phone = data.phone[i]
-        new.surname = data.surname[i]
+        new.address = data.address
+        new.birthdate = data.birthdate
+        new.blood = data.blood!
+        new.createdAt = data.createdAt
+        new.gender = data.gender!
+        new.name = data.name!
+        new.phone = data.phone
+        new.surname = data.surname!
         
-        for _ in 0..<30{
+        for _ in 0..<10{
             let dataA = datapop2()
             let newA = Appointment(context: context)
             newA.datetime = dataA.datetime
@@ -43,7 +43,19 @@ import UIKit
         
     }
     
+    let data = datapop3()
     
+    for item in data.name{
+        let new = Note(context: context)
+        new.name = item
+        
+        do {
+            try context.save()
+        } catch  {
+            print("Error while seeding, \(error)")
+        }
+    }
+
 }
 
 
@@ -51,14 +63,14 @@ import UIKit
 
 
 public struct datapop{
-    let name = ["John", "Sam", "Heylee", "Michael", "Giorno", "Mike", "Jinji", "Gamura", "Homer", "Bibzi", "Shamune", "Snake", "Vladimir"] //13
-    let surname = ["Koichi", "Hamburger", "Michawzelli", "Herihhi", "Darkwood", "Plinsten", "Hommari", "Sounera", "Machudji", "SuiSaishiMari", "Kontasora", "Damond", "Khorisow"]
-    let phone = ["+32323232", "+32323232", "+32323232", "+32323232", "+32323232", "+32323232", "+32323232", "+32323232", "+32323232", "+32323232", "+32323232", "+32323232", "+32323232"]
-    let gender = [true, true, false, true, true, true, false, false, true, false, true, true, true]
-    let createdAt = [Date() - 1200000, Date(), Date() - 4000000, Date(), Date(), Date() - 5000000, Date(), Date(), Date() - 10000, Date(), Date(), Date(), Date() - 30000]
-    let blood = ["AB", "AB+", "O", "O+", "A", "A+", "AB", "AB+", "O", "O+", "A", "A+", "O"]
-    let birthdate = [Date() - 124000000, Date() - 18000000, Date() - 25000000, Date() - 124000000, Date() - 18000000, Date() - 25000000, Date() - 124000000, Date() - 18000000, Date() - 25000000, Date() - 124000000, Date() - 18000000, Date() - 25000000, Date() - 25000000]
-    let address = ["Somewhere 79", "Somewhere 79", "Somewhere 79", "Somewhere 79", "Somewhere 79", "Somewhere 79", "Somewhere 79", "Somewhere 79", "Somewhere 79", "Somewhere 79", "Somewhere 79", "Somewhere 79", "Somewhere 79"]
+    let name = ["Milford", "Victoria", "Charmaine", "Quinton", "Dee", "Samuel", "Sonny", "Evan", "Kathy", "Fern", "Jannie", "Brenda", "Chas", "Danial", "Dena", "Clarice", "Claudine", "James", "Colleen", "Clarissa", "Bernadette", "Melvin", "Neville", "Stuart", "Marisa"].randomElement()
+    let surname = ["Gill", "Bruce", "Valentine", "Coleman", "Bowman", "Barr", "Snow", "Yoder", "Sloan", "Hull", "Olson", "Blankenship", "Rosario", "Kelly", "Serrano", "Gardner", "Parsons", "Barrett", "Zuniga", "Vaughn", "Baxter", "Jimenez", "Mooney", "Howard", "Morales"].randomElement()
+    let phone = "+32323232"
+    let gender = [true, false].randomElement()
+    let createdAt = Calendar.current.date(byAdding: .day, value: Int.random(in: -800 ..< -10), to: Date())!
+    let blood = ["AB-", "AB+", "O+", "A+", "A-", "O-", "B+", "B-"].randomElement()
+    let birthdate = Calendar.current.date(byAdding: .year, value: Int.random(in: -80 ..< -1), to: Date())!
+    let address = "Somewhere 79"
 }
 
 public struct datapop2{
@@ -66,4 +78,8 @@ public struct datapop2{
     let datetime = Calendar.current.date(byAdding: .day, value: Int.random(in: -182..<182), to: Date())!
     let note = ["None", "maybe", "a long note to check if all the letters will sure fit intot the note text field becuase I can type a lot while typing slowly yes", "mayb some more text to sure pic the random text to chekc the field", "why not to write more time to waste becuase I dont have enough time"].randomElement()
     let type = ["None", "Type one", "Type two", "Typw three", "Found you"].randomElement()
+}
+
+public struct datapop3{
+    let name = ["Important", "Urgent", "Patient ...", "ToDo list"]
 }

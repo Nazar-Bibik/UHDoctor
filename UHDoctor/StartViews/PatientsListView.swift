@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct PatientsListView: View {
-    @State var delete: Bool = false
-    @State var patients = Patients()
+    @State var search: Bool = false
+    @State var searchLine: String = ""
+    @EnvironmentObject var patients: Patients
     
 //    init(){
 //        //        UITableView.appearance().backgroundColor = UIColor.blue
@@ -24,14 +25,19 @@ struct PatientsListView: View {
         NavigationView{
             ZStack{
                 // --
-                LinearGradient(gradient: Gradient(colors: [Color("cGT"), Color("cGB")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea([.top, .leading, .trailing])
+//                LinearGradient(gradient: Gradient(colors: [Color("cGT"), Color("cGB")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea([.top, .leading, .trailing])
+                Color("cGB").edgesIgnoringSafeArea([.leading, .trailing])
                 // --
                 List {
                     //
-                    ForEach(patients.patients, id: \.self) {patient in
+                    if search{
+                        Divider()
+                    }
+                    ForEach(patients.patients.filter{$0.name.lowercased().contains(searchLine.lowercased()) || $0.surname.lowercased().contains(searchLine.lowercased()) || searchLine == ""}, id: \.self)
+                    {patient in
                         ZStack{
                             CellPatient(patient: patient)
-                            NavigationLink(destination: TestView()) {
+                            NavigationLink(destination: PatientView(patient: patient)) {
                                 NavigationLinkHelperView(mimic: .constant(true))
                                 }.hidden()
                         }
@@ -42,12 +48,12 @@ struct PatientsListView: View {
                     //
                 }
                 .background(Color.clear)
-                .navigationBarHidden(delete)
+                .navigationBarHidden(search)
                 .navigationBarTitle("Patients", displayMode: .inline)
                 .navigationBarItems(leading:
                     Button("Search") {
                         withAnimation{
-                            self.delete.toggle()
+                            self.search.toggle()
                         }
                     },
                     trailing: EditButton()
@@ -61,10 +67,20 @@ struct PatientsListView: View {
                     UITableView.appearance().backgroundColor = nil
                 }
                 // --
+                if (search){
+                    VStack{
+                        HStack{
+                            SearchBar(text: $searchLine)
+                            Button(action: {self.search.toggle()}) {
+                                Text("Cancel")
+                            }
+                        }.padding(4).background(FrostyOverlay(effect: UIBlurEffect(style: .systemThickMaterial)))
+                        Spacer()
+                    }
+                }
             }
             
         }
-        .animation(.linear).transition(.slide)
         .onAppear(){
             UITableView.appearance().separatorStyle = .none
         }

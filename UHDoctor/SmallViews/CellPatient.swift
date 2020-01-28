@@ -22,14 +22,15 @@ struct CellPatient: View {
             HStack {
                 Text(self.patient.surname)
                 Spacer()
-                Text("Age" + String(CDate.getYears(datetime: patient.birthdate)))
+                Text("Age " + String(CDate.getYears(datetime: patient.birthdate)))
             }
             }.padding()
-            .background(LinearGradient(gradient: Gradient(colors: [Color("cBW"), Color("cC")]), startPoint: .trailing, endPoint: .leading))
+            .background(Color("cBW"))
             .clipShape(RoundedRectangle(cornerRadius: 18))
             .clipped()
             .shadow(color: Color("cS"), radius: 2, x: 0, y: 4)
     }
+    
 }
 
 struct CellPatient_Previews: PreviewProvider {

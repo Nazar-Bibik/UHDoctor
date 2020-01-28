@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19B88" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Appointment" representedClassName=".Appointment" syncable="YES">
         <attribute name="datetime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="note" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
         <relationship name="patient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Patient" inverseName="appointments" inverseEntity="Patient"/>
+    </entity>
+    <entity name="Disease" representedClassName="Disease" syncable="YES" codeGenerationType="class">
+        <attribute name="datetime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="period" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="patient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Patient" inverseName="diseases" inverseEntity="Patient"/>
+        <relationship name="prescriptions" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Prescriptoin" inverseName="disease" inverseEntity="Prescriptoin"/>
     </entity>
     <entity name="Note" representedClassName=".Note" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -24,11 +32,23 @@
         <attribute name="phone" optional="YES" attributeType="String"/>
         <attribute name="surname" optional="YES" attributeType="String"/>
         <relationship name="appointments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Appointment" inverseName="patient" inverseEntity="Appointment"/>
-        <relationship name="notes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Note" inverseName="patient" inverseEntity="Note"/>
+        <relationship name="diseases" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Disease" inverseName="patient" inverseEntity="Disease"/>
+        <relationship name="notes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="patient" inverseEntity="Note"/>
+        <relationship name="prescriptions" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Prescriptoin" inverseName="patient" inverseEntity="Prescriptoin"/>
+    </entity>
+    <entity name="Prescriptoin" representedClassName="Prescriptoin" syncable="YES" codeGenerationType="class">
+        <attribute name="datetime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="instruction" optional="YES" attributeType="String"/>
+        <attribute name="medicine" optional="YES" attributeType="String"/>
+        <attribute name="period" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="disease" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Disease" inverseName="prescriptions" inverseEntity="Disease"/>
+        <relationship name="patient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Patient" inverseName="prescriptions" inverseEntity="Patient"/>
     </entity>
     <elements>
-        <element name="Appointment" positionX="33.23046875" positionY="-123.1796875" width="128" height="103"/>
-        <element name="Patient" positionX="-194.73046875" positionY="-134.89453125" width="128" height="208"/>
-        <element name="Note" positionX="-81" positionY="-54" width="128" height="118"/>
+        <element name="Appointment" positionX="-608.1015625" positionY="-55.2265625" width="128" height="103"/>
+        <element name="Disease" positionX="-168.02734375" positionY="-72.78125" width="128" height="133"/>
+        <element name="Note" positionX="-608.8359375" positionY="75.734375" width="128" height="118"/>
+        <element name="Patient" positionX="-387.828125" positionY="-111.875" width="128" height="238"/>
+        <element name="Prescriptoin" positionX="-175.984375" positionY="96.0625" width="128" height="133"/>
     </elements>
 </model>

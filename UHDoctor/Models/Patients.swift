@@ -66,6 +66,34 @@ class Patients: ObservableObject{
         saveContext()
     }
     
+    func sort(text: String) -> [Patient]{
+        return patients.filter { $0.surname.lowercased().contains(text.lowercased()) ||  $0.name.lowercased().contains(text.lowercased()) || $0.identification.contains(text)}
+    }
+    
+    func graphAge() -> [(String, Int)]{
+        var ages: [Int : Int] = [:]
+        for patient in patients{
+            let age = CDate.getYears(datetime: patient.birthdate)
+            if ages[age] != nil{
+                ages[age]! += 1
+            } else {
+                ages[age] = 1
+            }
+        }
+        return ages.sorted(by: { $0 < $1 }).map{ (String($0.key), $0.value) }
+    }
+    
+    func graphBlood() -> [(String, Int)]{
+        var bloods: [String : Int] = ["AB-" : 0, "AB+": 0, "O+": 0, "A+": 0, "A-": 0, "O-": 0, "B+": 0, "B-": 0]
+        for patient in patients{
+            bloods[patient.blood]! += 1
+        }
+        return bloods.map{ ($0.key, $0.value) }
+    }
+    
+    func graphAges() -> [(String, Int)]{
+        [("0-10", 8), ("10-20", 1), ("20-30", 4), ("30-40", 7), ("40-50", 3), ("50-60", 2), ("60-70", 2), ("70-80", 0), ("80-90", 0), ("90-100", 1), ("100 >", 0)]
+    }
 }
 
 //@NSManaged var name: String

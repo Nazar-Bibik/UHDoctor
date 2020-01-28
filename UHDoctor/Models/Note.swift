@@ -17,7 +17,7 @@ public class Note: NSManagedObject, Identifiable {
     @NSManaged var note: String
     @NSManaged var searchname: String
 
-    @NSManaged var patient: Patient
+    @NSManaged var patient: Patient?
 }
 
 extension Note {

@@ -23,7 +23,8 @@ struct NewPatientView: View {
     var body: some View {
 //        NavigationView {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color("cGT"), Color("cGB")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea([.top, .leading, .trailing])
+//                LinearGradient(gradient: Gradient(colors: [Color("cGT"), Color("cGB")]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea([.top, .leading, .trailing])
+                Color("cGB").edgesIgnoringSafeArea([.leading, .trailing])
                 VStack{
                     withAnimation{
                         Picker(selection: $newType, label: Text("Type")) {
@@ -34,22 +35,12 @@ struct NewPatientView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     if newType == 0 {
-                        Form {
-                            Text("09")
-                            SecureField("90", text: $fp.name)
-                        }.animation(.default)
+                        FormAppointmentView()
                     } else if newType == 1{
-                        Form {
-                            Text("08")
-                            SecureField("80", text: $newTypo)
-                        }.animation(.easeInOut)
+                        FormPatientView()
                     } else {
-                        Form {
-                            Text("07")
-                            SecureField("70", text: $newTypo)
-                        }.animation(.linear)
+                        FormNoteView()
                     }
-                    
                 }
                 .navigationBarHidden(true)
                 .navigationBarTitle("")
