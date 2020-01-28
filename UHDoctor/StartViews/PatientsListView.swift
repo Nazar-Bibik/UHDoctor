@@ -37,9 +37,9 @@ struct PatientsListView: View {
                     {patient in
                         ZStack{
                             CellPatient(patient: patient)
-                            NavigationLink(destination: PatientView(patient: patient)) {
-                                NavigationLinkHelperView(mimic: .constant(true))
-                                }.hidden()
+//                            NavigationLink(destination: PatientView(patient: patient)) {
+//                                NavigationLinkHelperView(mimic: .constant(true))
+//                                }.hidden()
                         }
                     }
                     .onDelete { (indexSet) in

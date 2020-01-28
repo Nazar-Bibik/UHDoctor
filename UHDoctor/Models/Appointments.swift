@@ -77,7 +77,7 @@ class Appointments: ObservableObject{
     }
     
     func getList(firstDay: Date, range: Int) -> [[Appointment]] {
-        let lastDay = CDate.shiftDays(datetime: firstDay, days: 30)
+        let lastDay = CDate.shiftDays(datetime: firstDay, days: range)
         return grouped.filter { $0.first!.datetime > firstDay && $0.first!.datetime < lastDay }
     }
     
